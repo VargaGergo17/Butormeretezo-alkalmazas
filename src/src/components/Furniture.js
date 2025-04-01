@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLoader } from "@react-three/fiber"; // To load textures
+import { useLoader } from "@react-three/fiber"; 
 import * as THREE from "three"; 
 
 function Furniture({thickness, width, height, depth, shelfCount, selectedModel, texturePath, drawerTexturePath, handle}) {
@@ -19,7 +19,7 @@ function Furniture({thickness, width, height, depth, shelfCount, selectedModel, 
 
   const [isDoorOpen, setIsDoorOpen] = useState(false);
 
-  // Door animation logic: rotate 90 degrees when open
+ 
   const doorRotation = isDoorOpen ? -Math.PI / 2 : 0;
 
   const toggleDoor = () => {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import * as THREE from "three"; // This imports Three.js itself
-import { Canvas, useThree } from "@react-three/fiber"; // Canvas and 3D handling
-import { PresentationControls, Stage } from "@react-three/drei"; // Controls and stage for 3D
+import * as THREE from "three"; 
+import { Canvas, useThree } from "@react-three/fiber"; 
+import { PresentationControls, Stage } from "@react-three/drei"; 
 import "./App.css";
 import Furniture from "./src/components/Furniture";
 import { jsPDF } from "jspdf";
@@ -42,7 +42,7 @@ function App() {
   const [shelfCount, setShelfCount] = useState(1);
   const [selectedTexture, setSelectedTexture] = useState("wood.jpg");
   const [drawerselectedTexture, setdrawerSelectedTexture] = useState("Darkwood.jpg");
-  const [ishandle, setHandle] = useState(false); // Initialize as a boolean
+  const [ishandle, setHandle] = useState(false); 
 
   
 const generatePDF = () => {
@@ -199,8 +199,8 @@ const generatePDF = () => {
             <input
                 type="checkbox"
                 className="ikxBAC"
-                checked={ishandle} // Use 'checked' for boolean state
-                onChange={(e) => setHandle(e.target.checked)} // Update state with 'checked'
+                checked={ishandle} 
+                onChange={(e) => setHandle(e.target.checked)} 
             />
             </div>
         </div>

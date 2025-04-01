@@ -21,12 +21,12 @@
 
 .controls {
   width: 300px;
-  background: linear-gradient(145deg, #ffffff, #e6e6e6); /* Modern gradient background */
+  background: linear-gradient(145deg, #e3eff3, #e7d56e); 
   padding: 20px;
-  border-radius: 12px; /* Softer corners */
-  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
-  overflow-y: auto; /* Enable scrolling for overflow */
-  max-height: calc(100vh - 40px); /* Prevent content from going out of view */
+  border-radius: 12px; 
+  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.2); 
+  overflow-y: auto; 
+  max-height: calc(100vh - 40px); 
 }
 
 .form-group {
@@ -37,26 +37,26 @@
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
-  font-size: 1rem; /* Modern font size */
-  color: #333; /* Slightly darker text color */
+  font-size: 1rem; 
+  color: #333; 
 }
 
 .form-group input,
 .form-group select {
   width: 100%;
-  padding: 10px; /* Slightly larger padding for better usability */
+  padding: 10px; 
   border: 1px solid #ccc;
-  border-radius: 6px; /* Softer corners */
-  font-size: 1rem; /* Modern font size */
-  background: #f9f9f9; /* Subtle background color */
+  border-radius: 6px; 
+  font-size: 1rem; 
+  background: #f9f9f9; 
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .form-group input:focus,
 .form-group select:focus {
-  border-color: #007bff; /* Highlight border on focus */
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Subtle glow effect */
-  outline: none; /* Remove default outline */
+  border-color: #007bff; 
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+  outline: none; 
 }
 
 button {
@@ -77,12 +77,12 @@ button:hover {
 .results {
   margin-top: 20px;
   padding: 10px;
-  background: #f8f9fa; /* Subtle background for results */
+  background: #f8f9fa; 
   border-radius: 8px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* Light shadow */
-  overflow-y: auto; /* Enable scrolling for results if needed */
-  max-height: 200px; /* Limit height to prevent overflow */
-}
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); 
+  overflow-y: auto; 
+  max-height: 200px;
+ }
 
 .pdf-button {
   margin-top: 10px;
@@ -95,13 +95,13 @@ button:hover {
 
 .three-d-panel {
   flex-grow: 1;
-  background: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 8px;
-  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.2); 
   display: flex;
-  flex-direction: column; /* Allow stacking of header and content */
-  position: relative; /* Ensure proper stacking context */
-  z-index: 10; /* Bring panel to the top */
+  flex-direction: column; 
+  position: relative; 
+  z-index: 10; 
   overflow: hidden;
 }
 
@@ -192,7 +192,7 @@ button:hover {
 
 .three-d-panel-header {
   font-family: "Inter", Arial, sans-serif;
-  font-size: clamp(1.5rem, 4vw, 3rem); /* Smaller and responsive font size */
+  font-size: clamp(1.5rem, 4vw, 3rem); 
   font-weight: 800;
   letter-spacing: var(--ls);
   position: relative;
@@ -200,12 +200,12 @@ button:hover {
   background: var(--bg);
   color: white;
   text-align: center;
-  padding: 5px; /* Adjusted padding for better fit */
+  padding: 5px; 
   border-radius: 8px 8px 0 0;
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-  white-space: nowrap; /* Prevent text wrapping */
-  text-overflow: ellipsis; /* Add ellipsis if text overflows */
-  overflow: hidden; /* Ensure text stays within the div */
+  white-space: nowrap; 
+  text-overflow: ellipsis; 
+  overflow: hidden; 
 }
 
 .three-d-panel-header .aurora {
