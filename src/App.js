@@ -6,6 +6,7 @@ import "./App.css";
 import Furniture from "./src/components/Furniture";
 import { jsPDF } from "jspdf";
 import { OrbitControls } from "@react-three/drei";
+import autoTable from "jspdf-autotable";
 
 
 
@@ -46,54 +47,95 @@ function App() {
 
   
 const generatePDF = () => {
-    const doc = new jsPDF();
-    const parts = calculateParts(parseFloat(width), parseFloat(height), parseFloat(depth), selectedModel, shelfCount);
-  
-    doc.text("Bútorméretezési terv", 10, 10);
-    doc.text("Típus: " + selectedModel, 10, 20);
-  
-    let y = 30;
-    parts.forEach((part) => {
-      doc.text(`${part.name}: ${part.width} cm x ${part.height} cm`, 10, y);
-      y += 10;
-    });
-  
-    doc.save("butormeretek.pdf");
-  };
+  const doc = new jsPDF();
+  const parts = calculateParts(parseFloat(width), parseFloat(height), parseFloat(depth), parseFloat(thickness), selectedModel, shelfCount);
 
-  const calculateParts = (width, height, depth, selectedModel, shelfCount) => {
+  console.log("Parts:", parts); // Debugging
+
+  // Header
+  doc.setFontSize(18);
+  doc.text("Bútorméretezési Terv", 105, 10, { align: "center" });
+  doc.setFontSize(12);
+  doc.text(`Típus: ${selectedModel}`, 10, 20);
+  doc.text(`Dátum: ${new Date().toLocaleDateString()}`, 10, 30);
+
+  // Textúra , részek
+  doc.text(`Textúra: ${selectedTexture}`, 10, 40);
+  doc.text(`Ajtó Textúra: ${drawerselectedTexture}`, 10, 45);
+  doc.text(`Fogantyú: ${ishandle ? "Igen" : "Nem"}`, 10, 50);
+
+  // Table Data
+  const tableData = parts.map((part) => [part.name, `${part.width} cm`, `${part.height} cm`, `${part.thickness} cm`]);
+  console.log("Table Data:", tableData); // Debugging
+
+  autoTable(doc, {
+    head: [["Név", "Szélesség", "Magasság", "Vastagság"]],
+    body: tableData,
+    startY: 70, // Adjusted to avoid overlap
+  });
+
+  // Footer
+  const pageCount = doc.internal.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.text(`Oldal ${i} / ${pageCount}`, 105, 290, { align: "center" });
+    doc.text("Generálva a Bútorméretező Alkalmazással", 105, 280, { align: "center" });
+  }
+
+  doc.save("butormeretek.pdf");
+};
+
+  const calculateParts = (width, height, depth,thickness, selectedModel, shelfCount) => {
     let parts = [];
 
     switch (selectedModel) {
-      case "egyajtos":
+      case "egyajtos": 
         parts = [
-          { name: "Oldallap", width: depth, height },
-          { name: "Tetolap", width, height: depth },
-          { name: "Ajtó", width, height },
+          { name: "Oldallap 1", width: depth, height, thickness },
+          { name: "Oldallap 2", width: depth, height, thickness },
+          { name: "Hátlap", width, height, thickness },
+          { name: "Tetőlap", width, height: depth, thickness },
+          { name: "Alaplap", width, height: depth, thickness },
+          { name: "Ajtó", width, height, thickness },
         ];
         break;
-      case "ketajtos":
+
+      case "ketajtos": 
         parts = [
-          { name: "Oldallap", width: depth, height },
-          { name: "Tetőlap", width, height: depth },
-          { name: "Ajtó 1", width: width / 2, height },
-          { name: "Ajtó 2", width: width / 2, height },
+          { name: "Oldallap 1", width: depth, height, thickness },
+          { name: "Oldallap 2", width: depth, height, thickness },
+          { name: "Hátlap", width, height, thickness },
+          { name: "Tetőlap", width, height: depth, thickness },
+          { name: "Alaplap", width, height: depth, thickness },
+          { name: "Ajtó 1", width: width / 2, height, thickness },
+          { name: "Ajtó 2", width: width / 2, height, thickness },
         ];
         break;
-      case "fiokos":
+
+      case "fiokos": 
         for (let i = 0; i < shelfCount; i++) {
-          parts.push({ name: "Fiók" `${i + 1}`, width, height: depth / 2 });
+          parts.push({ name: `Fiók ${i + 1}`, width, height: depth / 2, thickness });
         }
-        parts.push({ name: "Oldallap", width: depth, height });
-        parts.push({ name: "Tetőlap", width, height: depth });
+        parts.push({ name: "Oldallap 1", width: depth, height, thickness });
+        parts.push({ name: "Oldallap 2", width: depth, height, thickness });
+        parts.push({ name: "Hátlap", width, height, thickness });
+        parts.push({ name: "Tetőlap", width, height: depth, thickness });
+        parts.push({ name: "Alaplap", width, height: depth, thickness });
         break;
-      case "polcos":
+
+      case "polcos": 
         parts = [
-          { name: "Oldallap", width: depth, height },
-          { name: "Tetőlap", width, height: depth },
-          { name: "Fiókelőlap", width, height: height / 3 },
+          { name: "Oldallap 1", width: depth, height, thickness },
+          { name: "Oldallap 2", width: depth, height, thickness },
+          { name: "Hátlap", width, height, thickness },
+          { name: "Tetőlap", width, height: depth, thickness },
+          { name: "Alaplap", width, height: depth, thickness },
         ];
+        for (let i = 0; i < shelfCount; i++) {
+          parts.push({ name: `Polc ${i + 1}`, width, height: depth, thickness });
+        }
         break;
+
       default:
         parts = [];
     }
@@ -107,8 +149,8 @@ const generatePDF = () => {
     const numDepth = parseFloat(depth);
     const numThickness = parseFloat(thickness);
 
-    if (numWidth > 0 && numHeight > 0 && numDepth > 0) {
-      const parts = calculateParts(numWidth, numHeight, numDepth, selectedModel, shelfCount,numThickness);
+    if (numWidth > 0 && numHeight > 0 && numDepth > 0 && numThickness > 0) {
+      const parts = calculateParts(numWidth, numHeight, numDepth,numThickness, selectedModel, shelfCount);
       setResult(parts);
     } else {
       alert("Minden mezőt ki kell tölteni érvényes értékekkel!");
@@ -122,8 +164,8 @@ const generatePDF = () => {
     <div className="container">
       <div className="controls">
         <h1>Bútorméretező Alkalmazás</h1>
-        <div>
-          <select onChange={(e) => setSelectedModel(e.target.value)}>
+        <div className="model-select">
+          <select id="model" onChange={(e) => setSelectedModel(e.target.value)}>
             <option value="egyajtos">Egyajtós szekrény</option>
             <option value="ketajtos">Kétajtós szekrény</option>
             <option value="fiokos">Fiókos szekrény</option>
@@ -213,7 +255,7 @@ const generatePDF = () => {
             <ul>
               {result.map((part, index) => (
                 <li key={index}>
-                  {part.name}: {part.width} cm x {part.height} cm
+                  {part.name}: {part.width} cm x {part.height} cm x {part.thickness} cm
                 </li>
               ))}
             </ul>

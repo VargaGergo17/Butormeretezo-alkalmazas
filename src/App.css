@@ -20,7 +20,7 @@
 }
 
 .controls {
-  width: 300px;
+  width: 400px;
   background: linear-gradient(145deg, #e3eff3, #e7d56e); 
   padding: 20px;
   border-radius: 12px; 
@@ -43,7 +43,7 @@
 
 .form-group input,
 .form-group select {
-  width: 100%;
+  width: 90%;
   padding: 10px; 
   border: 1px solid #ccc;
   border-radius: 6px; 
@@ -65,7 +65,7 @@ button {
   background: #007bff;
   border: 1.5px solid #000000;
   color: white;
-  
+  font-family: "Inter", Arial, sans-serif;
   border-radius: 4px;
   cursor: pointer;
 }
@@ -74,6 +74,8 @@ button:hover {
   background: #0056b3;
 }
 
+
+
 .results {
   margin-top: 20px;
   padding: 10px;
@@ -81,7 +83,7 @@ button:hover {
   border-radius: 8px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); 
   overflow-y: auto; 
-  max-height: 200px;
+  max-height: 300px;
  }
 
 .pdf-button {
@@ -137,6 +139,8 @@ button:hover {
   margin: 20px;
   position: relative;
   width: 50px;
+  
+
 }
 
 .checkbox-wrapper-2 .ikxBAC::before {
@@ -165,7 +169,7 @@ button:hover {
 }
 
 .checkbox-wrapper-2 input[type=checkbox] {
-  cursor: default;
+  cursor: pointer;
 }
 
 .checkbox-wrapper-2 .ikxBAC:hover {
@@ -352,4 +356,33 @@ button:hover {
   100% {
     border-radius: 37% 29% 27% 27% / 28% 25% 41% 37%;
   }
+}
+
+.model-select {
+  margin-bottom: 15px; /* Add spacing below the dropdown */
+}
+
+.model-select select {
+  width: 70%; /* Full width */
+  padding: 10px; /* Add padding for better usability */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 6px; /* Rounded corners */
+  font-size: 1rem; /* Adjust font size */
+  background: #f9f9f9; /* Light background */
+  color: #333; /* Text color */
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth focus effect */
+}
+
+.model-select select:focus {
+  border-color: #007bff; /* Blue border on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Subtle glow effect */
+  outline: none; /* Remove default outline */
+}
+
+.model-select label {
+  display: block; /* Ensure the label is above the dropdown */
+  font-weight: bold; /* Bold text for the label */
+  margin-bottom: 5px; /* Add spacing below the label */
+  font-size: 1rem; /* Adjust font size */
+  color: #333; /* Text color */
 }

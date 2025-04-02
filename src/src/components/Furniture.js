@@ -11,7 +11,7 @@ function Furniture({thickness, width, height, depth, shelfCount, selectedModel, 
 
   const shelfHeight = height / (shelfCount + 1);
   const doorThickness = 0.02;
-  const doorOffset = depth / 2 + doorThickness / 2;
+  const doorOffset = depth / 2 + doorThickness/2 ;
   const handleOffset = 0.02;
   const handleHeight = height / 6; 
   const handleRadius = 0.015; 
@@ -81,9 +81,9 @@ function Furniture({thickness, width, height, depth, shelfCount, selectedModel, 
 
       {/* Door */}
       {selectedModel === "egyajtos" && (
-        <group position={[-width / 2, 0, doorOffset]} rotation={[0, doorRotation, 0]}>
-          <mesh position={[width / 2, 0, 0]} onClick={toggleDoor}>
-            <boxGeometry args={[width+ thickness, height+thickness, doorThickness]} />
+        <group position={[-width / 2 - thickness / 2, 0, doorOffset]} rotation={[0, doorRotation, 0]}>
+          <mesh position={[width / 2 + thickness / 2, 0, 0]} onClick={toggleDoor}>
+            <boxGeometry args={[width + thickness, height + thickness, doorThickness]} />
             <meshStandardMaterial map={drawerwoodTexture} />
           </mesh>
           {/* Handle */}
@@ -104,10 +104,10 @@ function Furniture({thickness, width, height, depth, shelfCount, selectedModel, 
 
       {selectedModel === "ketajtos" && (
         <>
-          <group position={[-width / 2, 0, doorOffset]} rotation={[0, doorRotation, 0]}>
+          <group position={[-width / 2 -thickness / 2 , 0, doorOffset]} rotation={[0, doorRotation, 0]}>
             {/* Left Door */}
-            <mesh position={[width / 4, 0, 0]} onClick={toggleDoor}>
-              <boxGeometry args={[width / 2, height, doorThickness]} />
+            <mesh position={[width / 4 + thickness / 4, 0, 0]} onClick={toggleDoor}>
+              <boxGeometry args={[width / 2+thickness/2, height+thickness, doorThickness]} />
               <meshStandardMaterial map={drawerwoodTexture} />
             </mesh>
             {/* Left Handle */}
@@ -118,10 +118,10 @@ function Furniture({thickness, width, height, depth, shelfCount, selectedModel, 
               </mesh>
             )}
           </group>
-          <group position={[width / 2, 0, doorOffset]} rotation={[0, -doorRotation, 0]}>
+          <group position={[width / 2 + thickness / 2, 0, doorOffset]} rotation={[0, -doorRotation, 0]}>
             {/* Right Door */}
-            <mesh position={[-width / 4, 0, 0]} onClick={toggleDoor}>
-              <boxGeometry args={[width / 2, height, doorThickness]} />
+            <mesh position={[-width / 4 - thickness / 4, 0, 0]} onClick={toggleDoor}>
+              <boxGeometry args={[width / 2+thickness/2, height+thickness, doorThickness]} />
               <meshStandardMaterial map={drawerwoodTexture} />
             </mesh>
             {/* Right Handle */}
