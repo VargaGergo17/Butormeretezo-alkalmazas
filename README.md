@@ -1,70 +1,79 @@
-# Getting Started with Create React App
+# Bútorméretező Alkalmazás
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Ez az alkalmazás egy **React** alapú bútorméretező és 3D modellező eszköz, amely segít bútorok tervezésében és azok méreteinek kiszámításában. Az alkalmazás lehetőséget biztosít a bútorok 3D-s vizualizálására, egyedi méretek megadására, valamint a vágási lista PDF formátumban történő exportálására.
 
-## Available Scripts
+##  Funkciók
+- **Egyedi méretezés**: Bútorok szélességének, magasságának, mélységének és vastagságának konfigurálása.
+- **Textúrák kiválasztása**: Különböző faanyag textúrák alkalmazása a bútorokra.
+- **Bútortípusok támogatása**:
+  - Egyajtós szekrény
+  - Kétajtós szekrény
+  - Fiókos szekrény
+  - Polcos szekrény
+- **3D megjelenítés**: A bútorok valós idejű vizualizációja a böngészőben.
+- **PDF generálás**: Vágási lista készítése és letöltése PDF formátumban.
+- **Interaktív elemek**: Ajtók nyitása/zárása és fogantyúk megjelenítése.
 
-In the project directory, you can run:
 
-### `npm start`
+### 1. Telepítés
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Kövesd az alábbi lépéseket az alkalmazás futtatásához:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```bash
+# Klónozd a repót
+git clone https://github.com/VargaGergo17/Butormeretezo-alkalmazas.git
 
-### `npm test`
+# Navigálj a mappába
+cd Butormeretezo-alkalmazas
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Függőségek telepítése
+npm install
+```
 
-### `npm run build`
+### 2. Indítás
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Futtasd az alkalmazást helyileg:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm start
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Ezután az alkalmazás elérhető lesz a böngésződben a következő címen: [http://localhost:3000](http://localhost:3000).
 
-### `npm run eject`
+### 3. Build
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Ha a projektet Build környezetben szeretnéd futtatni, használd a következő parancsot:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+npm run build
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+##  Projekt Felépítése
 
-## Learn More
+A projekt főbb mappái és fájljai:
+```
+Butormeretezo-alkalmazas/
+├── src/
+│   ├── components/
+│   │   ├── Furniture.js      # 3D bútor komponens
+│   ├── App.js                # Fő alkalmazás fájl
+│   ├── index.js              # Beállítások és renderelés
+├── public/
+├── package.json              # Függőségek és szkriptek
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+##  Függőségek
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Az alkalmazás a következő főbb könyvtárakat használja:
+- **React**: Felhasználói felület fejlesztése.
+- **@react-three/fiber** és **Three.js**: 3D modellezéshez.
+- **jspdf** és **jspdf-autotable**: PDF generáláshoz.
+- **@react-three/drei**: 3D objektumok egyszerűsített kezelése.
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
