@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as THREE from "three"; 
 import { Canvas, useThree } from "@react-three/fiber"; 
-import { PresentationControls, Stage } from "@react-three/drei"; 
+import {  Stage } from "@react-three/drei"; 
 import "./App.css";
 import Furniture from "./src/components/Furniture";
 import { jsPDF } from "jspdf";
@@ -24,6 +24,7 @@ const textureOptions = {
   "Természetes Fa": "natural.jpg"
 };
 
+
 const drawertextureOptions = {
  "Sötét Fa": "Darkwood.jpg",
   "Natúr Fa": "wood.jpg",
@@ -43,14 +44,14 @@ function App() {
   const [shelfCount, setShelfCount] = useState(1);
   const [selectedTexture, setSelectedTexture] = useState("wood.jpg");
   const [drawerselectedTexture, setdrawerSelectedTexture] = useState("Darkwood.jpg");
-  const [ishandle, setHandle] = useState(false); 
+  const [ishandle, setHandle] = useState(false);
+  const [isbox, setBox] = useState(false);
 
   
 const generatePDF = () => {
   const doc = new jsPDF();
   const parts = calculateParts(parseFloat(width), parseFloat(height), parseFloat(depth), parseFloat(thickness), selectedModel, shelfCount);
 
-  console.log("Parts:", parts); // Debugging
 
   // Header
   doc.setFontSize(18);
@@ -66,12 +67,12 @@ const generatePDF = () => {
 
   // Table Data
   const tableData = parts.map((part) => [part.name, `${part.width} cm`, `${part.height} cm`, `${part.thickness} cm`]);
-  console.log("Table Data:", tableData); // Debugging
+
 
   autoTable(doc, {
     head: [["Név", "Szélesség", "Magasság", "Vastagság"]],
     body: tableData,
-    startY: 70, // Adjusted to avoid overlap
+    startY: 70, 
   });
 
   // Footer
@@ -245,6 +246,16 @@ const generatePDF = () => {
                 onChange={(e) => setHandle(e.target.checked)} 
             />
             </div>
+            
+            <label>1m X 1m - Arány doboz</label>
+            <div className="checkbox-wrapper-2">
+            <input
+                type="checkbox"
+                className="ikxBAC"
+                checked={isbox} 
+                onChange={(e) => setBox(e.target.checked)} 
+            />
+            </div>
         </div>
 
         <button onClick={handleCalculate}>Kiszámolás</button>
@@ -277,37 +288,33 @@ const generatePDF = () => {
             <div className="aurora__item"></div>
           </div></h1>
         </div>
-        <Canvas camera={{ position: [4, 2, -8], fov: 10 }} style={{ width: "100%", height: "100%" }}>
-          <OrbitControls
-            enableZoom={true}
-            maxPolarAngle={Math.PI / 2}
-            minPolarAngle={0}
-          />
+        <Canvas
+          camera={{
+            position: [3, 3, 6], 
+            fov: 50, 
+          }}
+          style={{ width: "100%", height: "100%" }}
+        >
+          <OrbitControls enableZoom={true} maxPolarAngle={Math.PI / 2} minPolarAngle={0} />
           <ambientLight intensity={0.5} />
-          <directionalLight
-            position={[5, 10, 5]}
-            intensity={1}
-          />
-          <PresentationControls speed={1.5} polar={[-0.1, Math.PI / 4]}>
-            <Stage intensity={1.5} environment="sunset" adjustCamera={2}>
-              <Furniture
-                width={width / 100}
-                height={height / 100}
-                depth={depth / 100}
-                thickness={thickness / 100}
-                shelfCount={shelfCount}
-                selectedModel={selectedModel}
-                texturePath={selectedTexture || "wood.jpg"}
-                drawerTexturePath={drawerselectedTexture || "Darkwood.jpg"}
-                handle={ishandle}
-              />
-            </Stage>
-            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.8, 0]}>
-              <planeGeometry args={[10, 10]} />
-              <meshBasicMaterial color="cyan" />
-            </mesh>
-            <gridHelper args={[10, 10, `white`, `gray`]} position={[0, -0.8, 0]} />
-          </PresentationControls>
+          <directionalLight position={[5, 10, 5]} intensity={1} />
+          <Stage intensity={1.5} environment="sunset" adjustCamera={false}>
+            
+              <gridHelper args={[10, 10]} position={[0, -height / 200 - 0.1, 0]} rotation={[0, 0, 0]} />
+            
+            <Furniture
+              width={width / 100}
+              height={height / 100}
+              depth={depth / 100}
+              thickness={thickness / 100}
+              shelfCount={shelfCount}
+              selectedModel={selectedModel}
+              texturePath={selectedTexture || "wood.jpg"}
+              drawerTexturePath={drawerselectedTexture || "Darkwood.jpg"}
+              handle={ishandle}
+              box={isbox}
+            />
+          </Stage>
         </Canvas>
       </div>
     </div>

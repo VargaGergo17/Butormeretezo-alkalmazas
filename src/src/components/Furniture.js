@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import { useLoader } from "@react-three/fiber"; 
 import * as THREE from "three"; 
 
-function Furniture({thickness, width, height, depth, shelfCount, selectedModel, texturePath, drawerTexturePath, handle}) {
+
+function Furniture({thickness, width, height, depth, shelfCount, selectedModel, texturePath, drawerTexturePath, handle,box}) {
   const woodTexture = useLoader(THREE.TextureLoader, `/textures/${texturePath}`);
   woodTexture.wrapS = woodTexture.wrapT = THREE.RepeatWrapping;
 
   const drawerwoodTexture = useLoader(THREE.TextureLoader, `/textures/${drawerTexturePath}`);
   drawerwoodTexture.wrapS = drawerwoodTexture.wrapT = THREE.RepeatWrapping;
+
+  const boxTexture = useLoader(THREE.TextureLoader, `/textures/1x1.jpg`);
+  boxTexture.wrapS = boxTexture.wrapT = THREE.RepeatWrapping;
 
   const shelfHeight = height / (shelfCount + 1);
   const doorThickness = 0.02;
@@ -16,6 +20,8 @@ function Furniture({thickness, width, height, depth, shelfCount, selectedModel, 
   const handleHeight = height / 6; 
   const handleRadius = 0.015; 
   const handleLength = 0.08; 
+  
+ 
 
   const [isDoorOpen, setIsDoorOpen] = useState(false);
 
@@ -51,33 +57,42 @@ function Furniture({thickness, width, height, depth, shelfCount, selectedModel, 
     <>
       {/* Left Side Panel */}
       <mesh position={[-width / 2, 0, 0]}>
-        <boxGeometry args={[thickness, height, depth]} />
+        <boxGeometry args={[thickness, height+thickness, depth]} />
         <meshStandardMaterial map={woodTexture} />
       </mesh>
 
       {/* Right Side Panel */}
       <mesh position={[width / 2, 0, 0]}>
-        <boxGeometry args={[thickness, height, depth]} />
+        <boxGeometry args={[thickness, height+thickness, depth]} />
         <meshStandardMaterial map={woodTexture} />
       </mesh>
 
       {/* Back Panel */}
-      <mesh position={[0, 0, -depth / 2]}>
+      <mesh position={[0, 0, -depth / 2-thickness/2]}>
         <boxGeometry args={[width+thickness, height+thickness, thickness]} />
         <meshStandardMaterial map={woodTexture} />
       </mesh>
 
       {/* Top Panel */}
       <mesh position={[0, height / 2, 0]}>
-        <boxGeometry args={[width+thickness, thickness, depth]} />
+        <boxGeometry args={[width-thickness, thickness, depth]} />
         <meshStandardMaterial map={woodTexture} />
       </mesh>
 
       {/* Bottom Panel */}
       <mesh position={[0, -height / 2, 0]}>
-        <boxGeometry args={[width+thickness, thickness, depth]} />
+        <boxGeometry args={[width-thickness, thickness, depth]} />
         <meshStandardMaterial map={woodTexture} />
       </mesh>
+
+      {/* Box1 */}
+      {box && (
+      <mesh position={[2+width/5, -height / 2 + 0.5, 0]}>
+        <boxGeometry args={[1, 1, 1]} />
+        <meshStandardMaterial map={boxTexture} />
+      </mesh>
+      )}
+
 
       {/* Door */}
       {selectedModel === "egyajtos" && (
@@ -95,6 +110,8 @@ function Furniture({thickness, width, height, depth, shelfCount, selectedModel, 
           )}
         </group>
       )}
+
+
 
       {/* Shelves */}
       {selectedModel === "polcos" && <>{shelves}</>}
