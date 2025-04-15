@@ -80,7 +80,6 @@ const generatePDF = () => {
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
     doc.text(`Oldal ${i} / ${pageCount}`, 105, 290, { align: "center" });
-    doc.text("Generálva a Bútorméretező Alkalmazással", 105, 280, { align: "center" });
   }
 
   doc.save("butormeretek.pdf");
@@ -271,7 +270,7 @@ const generatePDF = () => {
               ))}
             </ul>
             <button onClick={generatePDF} className="pdf-button">
-              PDF Letöltése
+              <span className="pdf-button-content">PDF Letöltése</span>
             </button>
           </div>
         )}
