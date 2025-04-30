@@ -296,7 +296,7 @@ const generatePDF = () => {
         >
           <OrbitControls enableZoom={true} maxPolarAngle={Math.PI / 2} minPolarAngle={0} />
           <ambientLight intensity={0.5} />
-          <directionalLight position={[5, 10, 5]} intensity={1} />
+          
           <Stage intensity={1.5} environment="sunset" adjustCamera={false}>
             
               <gridHelper args={[10, 10]} position={[0, -height / 200 - 0.1, 0]} rotation={[0, 0, 0]} />
