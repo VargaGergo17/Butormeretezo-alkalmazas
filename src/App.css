@@ -295,6 +295,20 @@ button:hover {
   animation: aurora-border 6s ease-in-out infinite,
     aurora-4 24s ease-in-out infinite alternate;
 }
+  
+.measurements {
+  background: linear-gradient(to right, rgb(49, 180, 231), rgb(206, 43, 157));
+  height: 100px;
+  width: auto; 
+  max-width: 100%; 
+  z-index: 1;
+  border-radius: 0 0px 15px 0;
+  padding-left: 10px;
+  position: absolute;
+  top: 0px; 
+  left: 0; 
+
+}
 
 @keyframes aurora-1 {
   0% {

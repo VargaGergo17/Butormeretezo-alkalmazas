@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useLoader } from "@react-three/fiber"; 
 import * as THREE from "three"; 
+import WeightCalculate from "./Weight";
 
 
 function Furniture({thickness, width, height, depth, shelfCount, selectedModel, texturePath, drawerTexturePath, handle,box}) {
@@ -20,6 +21,9 @@ function Furniture({thickness, width, height, depth, shelfCount, selectedModel, 
   const handleHeight = height / 6; 
   const handleRadius = 0.015; 
   const handleLength = 0.08; 
+
+
+  
   
  
 

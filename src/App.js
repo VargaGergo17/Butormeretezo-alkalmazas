@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as THREE from "three"; 
 import { Canvas, useThree } from "@react-three/fiber"; 
 import {  Stage } from "@react-three/drei"; 
@@ -7,8 +7,7 @@ import Furniture from "./src/components/Furniture";
 import { jsPDF } from "jspdf";
 import { OrbitControls } from "@react-three/drei";
 import autoTable from "jspdf-autotable";
-
-
+import WeightCalculate from "./src/components/Weight";
 
 const loadTexture = (path) => {
   if (!path) return new THREE.Texture();
@@ -18,19 +17,23 @@ const loadTexture = (path) => {
 
 const textureOptions = {
   "Sötét Fa": "Darkwood.jpg",
-  "Natúr Fa": "wood.jpg",
-  "Fehér Fa": "white.jpg",
-  "Fenyő Fa": "Oak.jpg",
-  "Természetes Fa": "natural.jpg"
+  "Natúr Fa": "wood.jpg",  
+  "Tölgy": "Oak1.jpg",
+  "Természetes Fa": "natural.jpg",
+  "Rózsafa": "rosewood.jpg",
+  "plywood": "plywood.jpg",
+  "Fenyő Fa": "Oak.jpg"
 };
 
 
 const drawertextureOptions = {
- "Sötét Fa": "Darkwood.jpg",
+  "Sötét Fa": "Darkwood.jpg",
   "Natúr Fa": "wood.jpg",
-  "Fehér Fa": "white.jpg",
-  "Fenyő Fa": "Oak.jpg",
-  "Természetes Fa": "natural.jpg"
+  "Tölgy": "Oak1.jpg",
+  "Természetes Fa": "natural.jpg",
+  "Rózsafa": "rosewood.jpg",
+  "plywood": "plywood.jpg",
+  "Fenyő Fa": "Oak.jpg"
 };
 
 
@@ -46,8 +49,27 @@ function App() {
   const [drawerselectedTexture, setdrawerSelectedTexture] = useState("Darkwood.jpg");
   const [ishandle, setHandle] = useState(false);
   const [isbox, setBox] = useState(false);
+  const [weight, setWeight] = useState(null);
 
-  
+  useEffect(() => {
+    const numWidth = parseFloat(width);
+    const numHeight = parseFloat(height);
+    const numDepth = parseFloat(depth);
+    const numThickness = parseFloat(thickness);
+
+    if (numWidth > 0 && numHeight > 0 && numDepth > 0 && numThickness > 0) {
+      try {
+        const calculatedWeight = WeightCalculate(numWidth, numHeight, numDepth, numThickness, selectedTexture);
+        setWeight(calculatedWeight.toFixed(2)); // Round to 2 decimal places
+      } catch (error) {
+        console.error(error.message);
+        setWeight(null);
+      }
+    } else {
+      setWeight(null); // Reset weight if inputs are invalid
+    }
+  }, [width, height, depth, thickness, selectedTexture]); // Recalculate weight when these values change
+
 const generatePDF = () => {
   const doc = new jsPDF();
   const parts = calculateParts(parseFloat(width), parseFloat(height), parseFloat(depth), parseFloat(thickness), selectedModel, shelfCount);
@@ -85,28 +107,28 @@ const generatePDF = () => {
   doc.save("butormeretek.pdf");
 };
 
-  const calculateParts = (width, height, depth,thickness, selectedModel, shelfCount) => {
+  const calculateParts = (width, height, depth,thickness, selectedModel, shelfCount,) => {
     let parts = [];
 
     switch (selectedModel) {
       case "egyajtos": 
         parts = [
-          { name: "Oldallap 1", width: depth, height, thickness },
-          { name: "Oldallap 2", width: depth, height, thickness },
+          { name: "Oldallap 1",  width:depth-thickness, height, thickness },
+          { name: "Oldallap 2", width:depth-thickness, height, thickness },
           { name: "Hátlap", width, height, thickness },
-          { name: "Tetőlap", width, height: depth, thickness },
-          { name: "Alaplap", width, height: depth, thickness },
+          { name: "Tetőlap", width:width-(thickness*2), height: depth-thickness, thickness },
+          { name: "Alaplap", width:width-(thickness*2), height: depth-thickness, thickness },
           { name: "Ajtó", width, height, thickness },
         ];
         break;
 
       case "ketajtos": 
         parts = [
-          { name: "Oldallap 1", width: depth, height, thickness },
-          { name: "Oldallap 2", width: depth, height, thickness },
+          { name: "Oldallap 1",  width:depth-thickness, height, thickness },
+          { name: "Oldallap 2", width:depth-thickness, height, thickness },
           { name: "Hátlap", width, height, thickness },
-          { name: "Tetőlap", width, height: depth, thickness },
-          { name: "Alaplap", width, height: depth, thickness },
+          { name: "Tetőlap", width:width-(thickness*2), height: depth-thickness, thickness },
+          { name: "Alaplap", width:width-(thickness*2), height: depth-thickness, thickness },
           { name: "Ajtó 1", width: width / 2, height, thickness },
           { name: "Ajtó 2", width: width / 2, height, thickness },
         ];
@@ -150,8 +172,12 @@ const generatePDF = () => {
     const numThickness = parseFloat(thickness);
 
     if (numWidth > 0 && numHeight > 0 && numDepth > 0 && numThickness > 0) {
-      const parts = calculateParts(numWidth, numHeight, numDepth,numThickness, selectedModel, shelfCount);
+      const parts = calculateParts(numWidth, numHeight, numDepth, numThickness, selectedModel, shelfCount);
       setResult(parts);
+
+      // Calculate weight
+      const calculatedWeight = WeightCalculate(numWidth, numHeight, numDepth, numThickness, selectedTexture);
+      setWeight(calculatedWeight.toFixed(2)); // Round to 2 decimal places
     } else {
       alert("Minden mezőt ki kell tölteni érvényes értékekkel!");
     }
@@ -277,6 +303,10 @@ const generatePDF = () => {
       </div>
 
       <div className="three-d-panel">
+        <div className="measurements">
+          <h1 className="title">Tömeg: {weight ? `${weight} kg` : "Nincs kiszámítva"}</h1>
+          
+        </div>
         <div className="three-d-panel-header">
           
           <h1 className="title">3D megjelenítés
@@ -287,6 +317,8 @@ const generatePDF = () => {
             <div className="aurora__item"></div>
           </div></h1>
         </div>
+        
+        
         <Canvas
           camera={{
             position: [3, 3, 6], 
