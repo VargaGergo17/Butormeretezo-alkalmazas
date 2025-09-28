@@ -14,19 +14,19 @@
 
 .container {
   display: flex;
-  height: 100vh;
-  padding: 20px;
-  gap: 20px;
+  height: 100vh; /* Full height of the viewport */
+  overflow: hidden; /* Prevent scrolling on the entire container */
 }
 
 .controls {
-  width: 400px;
-  background: linear-gradient(145deg, #e3eff3, #e7d56e); 
+  width: 25%; /* Adjust the width as needed */
+  background-color: #f4f4f4; /* Optional: Add a background color */
   padding: 20px;
-  border-radius: 12px; 
-  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.2); 
-  overflow-y: auto; 
-  max-height: calc(100vh - 40px); 
+  padding-bottom: 20px; /* Add padding to ensure the bottom content is visible */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for separation */
+  overflow-y: auto; /* Enable scrolling for the left side */
+  height: 100%; /* Ensure it fills the full height of the parent container */
+  box-sizing: border-box; /* Include padding in the element's dimensions */
 }
 
 .form-group {
@@ -78,6 +78,7 @@ button:hover {
 
 .results {
   margin-top: 20px;
+  margin-bottom: 50px;
   padding: 10px;
   background: #f8f9fa; 
   border-radius: 8px;
@@ -89,8 +90,6 @@ button:hover {
 .pdf-button {
   margin-top: 10px;
   
-  position: relative;
-  overflow: hidden;
   height: 3rem;
   padding: 0 2rem;
   border-radius: 1.5rem;
@@ -128,15 +127,10 @@ button:hover {
 }
 
 .three-d-panel {
-  flex-grow: 1;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 8px;
-  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.2); 
-  display: flex;
-  flex-direction: column; 
-  position: relative; 
-  z-index: 10; 
-  overflow: hidden;
+  flex: 1; /* Take up the remaining space */
+  position: relative;
+  height: 100%; /* Ensure it fills the full height of the parent container */
+  overflow: hidden; /* Prevent scrolling on the 3D panel */
 }
 
 .reset-button {
@@ -424,6 +418,18 @@ button:hover {
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Subtle glow effect */
   outline: none; /* Remove default outline */
 }
+
+.model-select label {
+  display: block; /* Ensure the label is above the dropdown */
+  font-weight: bold; /* Bold text for the label */
+  margin-bottom: 5px; /* Add spacing below the label */
+  font-size: 1rem; /* Adjust font size */
+  color: #333; /* Text color */
+
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Subtle glow effect */
+  outline: none; /* Remove default outline */
+}
+
 
 .model-select label {
   display: block; /* Ensure the label is above the dropdown */

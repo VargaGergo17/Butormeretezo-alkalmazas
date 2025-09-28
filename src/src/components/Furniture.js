@@ -4,6 +4,7 @@ import * as THREE from "three";
 import WeightCalculate from "./Weight";
 
 
+
 function Furniture({thickness, width, height, depth, shelfCount, selectedModel, texturePath, drawerTexturePath, handle,box}) {
   const woodTexture = useLoader(THREE.TextureLoader, `/textures/${texturePath}`);
   woodTexture.wrapS = woodTexture.wrapT = THREE.RepeatWrapping;
@@ -58,7 +59,8 @@ function Furniture({thickness, width, height, depth, shelfCount, selectedModel, 
   }
 
   return (
-    <>
+    
+      <>
       {/* Left Side Panel */}
       <mesh position={[-width / 2, 0, 0]}>
         <boxGeometry args={[thickness, height+thickness, depth]} />
@@ -155,7 +157,8 @@ function Furniture({thickness, width, height, depth, shelfCount, selectedModel, 
           </group>
         </>
       )}
-    </>
+      </>
+    
   );
 }
 
