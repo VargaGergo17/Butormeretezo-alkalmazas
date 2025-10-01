@@ -306,16 +306,20 @@ const generatePDF = () => {
         <div className="measurements">
           <h1 className="title">Tömeg: {weight ? `${weight} kg` : "Nincs kiszámítva"}</h1>
           
+        
+        
         </div>
+        <div className="area">
+          <h1>
+            Terület: 
+          </h1>
+        </div>
+        <div className="divider" />
         <div className="three-d-panel-header">
           
           <h1 className="title">3D megjelenítés
-            <div className="aurora">
-            <div className="aurora__item"></div>
-            <div className="aurora__item"></div>
-            <div className="aurora__item"></div>
-            <div className="aurora__item"></div>
-          </div></h1>
+          
+          </h1>
         </div>
         
         
