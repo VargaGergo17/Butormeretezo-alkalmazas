@@ -208,78 +208,8 @@ button:hover {
   background-color: #535db3;
 }
 
-.three-d-panel-header {
-  font-family: "Inter", Arial, sans-serif;
-  font-size: clamp(1.5rem, 4vw, 3rem); 
-  font-weight: 800;
-  letter-spacing: var(--ls);
-  position: relative;
-  overflow: hidden;
-  background: var(--bg);
-  color: white;
-  text-align: center;
-  padding: 5px; 
-  border-radius: 0px 8px 0 0;
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-  white-space: nowrap; 
-  text-overflow: ellipsis; 
-  overflow: hidden; 
-}
-
-.three-d-panel-header .aurora {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  mix-blend-mode: darken;
-  pointer-events: none;
-}
-
-.three-d-panel-header .aurora__item {
-  overflow: hidden;
-  position: absolute;
-  width: 60vw;
-  height: 60vw;
-  background-color: var(--clr-1);
-  border-radius: 37% 29% 27% 27% / 28% 25% 41% 37%;
-  filter: blur(var(--blur));
-  mix-blend-mode: overlay;
-}
-
-.three-d-panel-header .aurora__item:nth-of-type(1) {
-  top: -50%;
-  animation: aurora-border 6s ease-in-out infinite,
-    aurora-1 12s ease-in-out infinite alternate;
-}
-
-.three-d-panel-header .aurora__item:nth-of-type(2) {
-  background-color: var(--clr-3);
-  right: 0;
-  top: 0;
-  animation: aurora-border 6s ease-in-out infinite,
-    aurora-2 12s ease-in-out infinite alternate;
-}
-
-.three-d-panel-header .aurora__item:nth-of-type(3) {
-  background-color: var(--clr-2);
-  left: 0;
-  bottom: 0;
-  animation: aurora-border 6s ease-in-out infinite,
-    aurora-3 8s ease-in-out infinite alternate;
-}
-
-.three-d-panel-header .aurora__item:nth-of-type(4) {
-  background-color: var(--clr-4);
-  right: 0;
-  bottom: -50%;
-  animation: aurora-border 6s ease-in-out infinite,
-    aurora-4 24s ease-in-out infinite alternate;
-}
-  
 .measurements {
-  background: linear-gradient(to right, rgb(49, 180, 231), rgb(206, 43, 157));
+  background: linear-gradient(to right, rgb(255, 255, 255), rgb(136, 180, 201));
   height: 100px;
   width: auto; 
   max-width: 100%; 
@@ -294,12 +224,11 @@ button:hover {
 
 .area 
 {
-  background: linear-gradient(to right, rgb(49, 180, 231), rgb(206, 43, 157));
-  max-width: 100%;
+background: linear-gradient(to right, rgb(255, 255, 255), rgb(136, 180, 201));  max-width: 100%;
   z-index: 2;
   border-radius: 0 0 15px 0;
   position: absolute;
-  color:white;
+  color:rgb(0, 0, 0);
   height: auto;
   width: auto;
   margin-top:100px;
@@ -307,137 +236,9 @@ button:hover {
   
 }
 
-@keyframes aurora-1 {
-  0% {
-    top: 0;
-    right: 0;
-  }
-  50% {
-    top: 100%;
-    right: 75%;
-  }
-  75% {
-    top: 100%;
-    right: 25%;
-  }
-  100% {
-    top: 0;
-    right: 0;
-  }
-}
-
-@keyframes aurora-2 {
-  0% {
-    top: -50%;
-    left: 0%;
-  }
-  60% {
-    top: 100%;
-    left: 75%;
-  }
-  85% {
-    top: 100%;
-    left: 25%;
-  }
-  100% {
-    top: -50%;
-    left: 0%;
-  }
-}
-
-@keyframes aurora-3 {
-  0% {
-    bottom: 0;
-    left: 0;
-  }
-  40% {
-    bottom: 100%;
-    left: 75%;
-  }
-  65% {
-    bottom: 40%;
-    left: 50%;
-  }
-  100% {
-    bottom: 0;
-    left: 0;
-  }
-}
-
-@keyframes aurora-4 {
-  0% {
-    bottom: -50%;
-    right: 0;
-  }
-  50% {
-    bottom: 0%;
-    right: 40%;
-  }
-  90% {
-    bottom: 50%;
-    right: 25%;
-  }
-  100% {
-    bottom: -50%;
-    right: 0;
-  }
-}
-
-@keyframes aurora-border {
-  0% {
-    border-radius: 37% 29% 27% 27% / 28% 25% 41% 37%;
-  }
-  25% {
-    border-radius: 47% 29% 39% 49% / 61% 19% 66% 26%;
-  }
-  50% {
-    border-radius: 57% 23% 47% 72% / 63% 17% 66% 33%;
-  }
-  75% {
-    border-radius: 28% 49% 29% 100% / 93% 20% 64% 25%;
-  }
-  100% {
-    border-radius: 37% 29% 27% 27% / 28% 25% 41% 37%;
-  }
-}
-
-.model-select {
-  margin-bottom: 15px; /* Add spacing below the dropdown */
-}
-
-.model-select select {
-  width: 70%; /* Full width */
-  padding: 10px; /* Add padding for better usability */
-  border: 1px solid #ccc; /* Light border */
-  border-radius: 6px; /* Rounded corners */
-  font-size: 1rem; /* Adjust font size */
-  background: #f9f9f9; /* Light background */
-  color: #333; /* Text color */
-  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth focus effect */
-}
-
-.model-select select:focus {
-  border-color: #007bff; /* Blue border on focus */
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Subtle glow effect */
-  outline: none; /* Remove default outline */
-}
-
-.model-select label {
-  display: block; /* Ensure the label is above the dropdown */
-  font-weight: bold; /* Bold text for the label */
-  margin-bottom: 5px; /* Add spacing below the label */
-  font-size: 1rem; /* Adjust font size */
-  color: #333; /* Text color */
-
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Subtle glow effect */
-  outline: none; /* Remove default outline */
-}
-
-
-.model-select label {
-  display: block; /* Ensure the label is above the dropdown */
-  font-weight: bold; /* Bold text for the label */
-  margin-bottom: 5px; /* Add spacing below the label */
-  font-size: 1rem; /* Adjust font size */
-  color: #333; /* Text color */
+.three-d-panel-header {
+background-color: white;
+z-index: 2;
+width: 100%;
+height: 185px;
 }

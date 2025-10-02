@@ -50,6 +50,7 @@ function App() {
   const [ishandle, setHandle] = useState(false);
   const [isbox, setBox] = useState(false);
   const [weight, setWeight] = useState(null);
+  const [area,setArea] = useState(null);
 
   useEffect(() => {
     const numWidth = parseFloat(width);
@@ -61,12 +62,17 @@ function App() {
       try {
         const calculatedWeight = WeightCalculate(numWidth, numHeight, numDepth, numThickness, selectedTexture);
         setWeight(calculatedWeight.toFixed(2)); // Round to 2 decimal places
+        // area in m^2: width(cm) * depth(cm) -> /10000
+        const areaM2 = (numWidth * numDepth) / 10000;
+        setArea(areaM2.toFixed(2));
       } catch (error) {
         console.error(error.message);
         setWeight(null);
+        setArea(null)
       }
     } else {
       setWeight(null); // Reset weight if inputs are invalid
+      setArea(null);
     }
   }, [width, height, depth, thickness, selectedTexture]); // Recalculate weight when these values change
 
@@ -175,15 +181,19 @@ const generatePDF = () => {
       const parts = calculateParts(numWidth, numHeight, numDepth, numThickness, selectedModel, shelfCount);
       setResult(parts);
 
-      // Calculate weight
+      
       const calculatedWeight = WeightCalculate(numWidth, numHeight, numDepth, numThickness, selectedTexture);
-      setWeight(calculatedWeight.toFixed(2)); // Round to 2 decimal places
+      setWeight(calculatedWeight.toFixed(2)); 
+      
+      // calculate area (width x depth) in m²
+      const areaM2 = (numWidth * numDepth) / 10000;
+      setArea(areaM2.toFixed(2));
+       
     } else {
       alert("Minden mezőt ki kell tölteni érvényes értékekkel!");
     }
   };
 
- 
 
 
   return (
@@ -303,6 +313,7 @@ const generatePDF = () => {
       </div>
 
       <div className="three-d-panel">
+        <div className="three-d-panel-header">
         <div className="measurements">
           <h1 className="title">Tömeg: {weight ? `${weight} kg` : "Nincs kiszámítva"}</h1>
           
@@ -311,16 +322,12 @@ const generatePDF = () => {
         </div>
         <div className="area">
           <h1>
-            Terület: 
+            Terület: {area ? `${area} m²` : "Nincs kiszámítva"}
           </h1>
         </div>
         <div className="divider" />
-        <div className="three-d-panel-header">
-          
-          <h1 className="title">3D megjelenítés
-          
-          </h1>
         </div>
+        
         
         
         <Canvas
