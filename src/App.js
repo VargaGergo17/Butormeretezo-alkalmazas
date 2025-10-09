@@ -43,6 +43,7 @@ function App() {
   const [depth, setDepth] = useState("");
   const [thickness, setThickness] = useState("");
   const [result, setResult] = useState(null);
+  const [materialRequirement, setMaterialRequirement] = useState(null);
   const [selectedModel, setSelectedModel] = useState("egyajtos");
   const [shelfCount, setShelfCount] = useState(1);
   const [selectedTexture, setSelectedTexture] = useState("wood.jpg");
@@ -51,6 +52,7 @@ function App() {
   const [isbox, setBox] = useState(false);
   const [weight, setWeight] = useState(null);
   const [area,setArea] = useState(null);
+  const [volume, setVolume] = useState(null);
 
   useEffect(() => {
     const numWidth = parseFloat(width);
@@ -58,23 +60,74 @@ function App() {
     const numDepth = parseFloat(depth);
     const numThickness = parseFloat(thickness);
 
-    if (numWidth > 0 && numHeight > 0 && numDepth > 0 && numThickness > 0) {
+    if (
+      numWidth > 0 &&
+      numHeight > 0 &&
+      numDepth > 0 &&
+      numThickness > 0
+    ) {
       try {
-        const calculatedWeight = WeightCalculate(numWidth, numHeight, numDepth, numThickness, selectedTexture);
-        setWeight(calculatedWeight.toFixed(2)); // Round to 2 decimal places
-        // area in m^2: width(cm) * depth(cm) -> /10000
+        // Vágási lista automatikusan
+        const parts = calculateParts(
+          numWidth,
+          numHeight,
+          numDepth,
+          numThickness,
+          selectedModel,
+          shelfCount
+        );
+        setResult(parts);
+
+        // Tömeg
+        const calculatedWeight = WeightCalculate(
+          numWidth,
+          numHeight,
+          numDepth,
+          numThickness,
+          selectedTexture
+        );
+        setWeight(calculatedWeight.toFixed(2));
+
+        // Terület
         const areaM2 = (numWidth * numDepth) / 10000;
         setArea(areaM2.toFixed(2));
+
+        // Űrtartalom
+        const volumeM3 = (numWidth * numHeight * numDepth) / 1000000;
+        setVolume(volumeM3.toFixed(3));
+
+        // Anyagszükséglet
+        const totalMaterialM2 = parts.reduce((sum, part) => {
+          const w_cm = parseFloat(part.width);
+          const h_cm = parseFloat(part.height);
+          if (isNaN(w_cm) || isNaN(h_cm)) return sum;
+          return sum + (w_cm * h_cm) / 10000;
+        }, 0);
+        setMaterialRequirement(totalMaterialM2.toFixed(2));
       } catch (error) {
         console.error(error.message);
         setWeight(null);
-        setArea(null)
+        setArea(null);
+        setMaterialRequirement(null);
+        setVolume(null);
+        setResult(null);
       }
     } else {
-      setWeight(null); // Reset weight if inputs are invalid
+      setWeight(null);
       setArea(null);
+      setMaterialRequirement(null);
+      setVolume(null);
+      setResult(null);
     }
-  }, [width, height, depth, thickness, selectedTexture]); // Recalculate weight when these values change
+  }, [
+    width,
+    height,
+    depth,
+    thickness,
+    selectedTexture,
+    selectedModel,
+    shelfCount
+  ]);
 
 const generatePDF = () => {
   const doc = new jsPDF();
@@ -94,7 +147,7 @@ const generatePDF = () => {
   doc.text(`Fogantyú: ${ishandle ? "Igen" : "Nem"}`, 10, 50);
 
   // Table Data
-  const tableData = parts.map((part) => [part.name, `${part.width} cm`, `${part.height} cm`, `${part.thickness} cm`]);
+  const tableData = parts.map((part) => [part.name, `${part.width} cm`, `${part.height} cm`, `${part.thickness} mm`]);
 
 
   autoTable(doc, {
@@ -114,27 +167,29 @@ const generatePDF = () => {
 };
 
   const calculateParts = (width, height, depth,thickness, selectedModel, shelfCount,) => {
+    // thickness parameter is provided in mm. Convert to cm for dimensional math
+    const t_cm = thickness / 10; // mm -> cm
     let parts = [];
 
     switch (selectedModel) {
       case "egyajtos": 
         parts = [
-          { name: "Oldallap 1",  width:depth-thickness, height, thickness },
-          { name: "Oldallap 2", width:depth-thickness, height, thickness },
+          { name: "Oldallap 1",  width: depth - t_cm, height, thickness },
+          { name: "Oldallap 2", width: depth - t_cm, height, thickness },
           { name: "Hátlap", width, height, thickness },
-          { name: "Tetőlap", width:width-(thickness*2), height: depth-thickness, thickness },
-          { name: "Alaplap", width:width-(thickness*2), height: depth-thickness, thickness },
+          { name: "Tetőlap", width: width - (t_cm * 2), height: depth - t_cm, thickness },
+          { name: "Alaplap", width: width - (t_cm * 2), height: depth - t_cm, thickness },
           { name: "Ajtó", width, height, thickness },
         ];
         break;
 
       case "ketajtos": 
         parts = [
-          { name: "Oldallap 1",  width:depth-thickness, height, thickness },
-          { name: "Oldallap 2", width:depth-thickness, height, thickness },
+          { name: "Oldallap 1",  width: depth - t_cm, height, thickness },
+          { name: "Oldallap 2", width: depth - t_cm, height, thickness },
           { name: "Hátlap", width, height, thickness },
-          { name: "Tetőlap", width:width-(thickness*2), height: depth-thickness, thickness },
-          { name: "Alaplap", width:width-(thickness*2), height: depth-thickness, thickness },
+          { name: "Tetőlap", width: width - (t_cm * 2), height: depth - t_cm, thickness },
+          { name: "Alaplap", width: width - (t_cm * 2), height: depth - t_cm, thickness },
           { name: "Ajtó 1", width: width / 2, height, thickness },
           { name: "Ajtó 2", width: width / 2, height, thickness },
         ];
@@ -181,16 +236,27 @@ const generatePDF = () => {
       const parts = calculateParts(numWidth, numHeight, numDepth, numThickness, selectedModel, shelfCount);
       setResult(parts);
 
-      
       const calculatedWeight = WeightCalculate(numWidth, numHeight, numDepth, numThickness, selectedTexture);
       setWeight(calculatedWeight.toFixed(2)); 
+
       
-      // calculate area (width x depth) in m²
-      const areaM2 = (numWidth * numDepth) / 10000;
-      setArea(areaM2.toFixed(2));
-       
+      
+
+      const volumeM2 = (numWidth * numHeight * numDepth) / 1000000;
+      setVolume(volumeM2.toFixed(3));
+
+      
+      const totalMaterialM2 = parts.reduce((sum, part) => {
+        const w_cm = parseFloat(part.width);
+        const h_cm = parseFloat(part.height);
+        if (isNaN(w_cm) || isNaN(h_cm)) return sum;
+        return sum + (w_cm * h_cm) / 10000;
+      }, 0);
+      setMaterialRequirement(totalMaterialM2.toFixed(2));
+
     } else {
       alert("Minden mezőt ki kell tölteni érvényes értékekkel!");
+      
     }
   };
 
@@ -243,7 +309,7 @@ const generatePDF = () => {
           <input type="number" value={depth} onChange={(e) => setDepth(e.target.value)} min="1" />
         </div>
         <div className="form-group">
-          <label>Vastagság (cm):</label>
+          <label>Vastagság (mm):</label>
           <input type="number" value={thickness} onChange={(e) => setThickness(e.target.value)} min="1" />
         </div>
 
@@ -301,7 +367,7 @@ const generatePDF = () => {
             <ul>
               {result.map((part, index) => (
                 <li key={index}>
-                  {part.name}: {part.width} cm x {part.height} cm x {part.thickness} cm
+                  {part.name}: {part.width} cm x {part.height} cm x {part.thickness} mm
                 </li>
               ))}
             </ul>
@@ -315,15 +381,26 @@ const generatePDF = () => {
       <div className="three-d-panel">
         <div className="three-d-panel-header">
         <div className="measurements">
-          <h1 className="title">Tömeg: {weight ? `${weight} kg` : "Nincs kiszámítva"}</h1>
-          
-        
-        
+          <h2>
+            Tömeg: {weight ? `${weight} kg` : "Nincs kiszámítva"}
+            
+          </h2>             
         </div>
         <div className="area">
-          <h1>
+          <h2>
             Terület: {area ? `${area} m²` : "Nincs kiszámítva"}
-          </h1>
+          </h2>
+        </div> 
+        <div className="material">       
+          <h2>
+            Anyagszükséglet: {materialRequirement ? `${materialRequirement} m²` : "Nincs kiszámítva"}
+          </h2>
+        
+        </div>
+        <div className="volume"> 
+          <h2>
+            Űrtartalom: {volume ? `${volume} m³` : "Nincs kiszámítva"}
+          </h2>
         </div>
         <div className="divider" />
         </div>
@@ -348,7 +425,7 @@ const generatePDF = () => {
               width={width / 100}
               height={height / 100}
               depth={depth / 100}
-              thickness={thickness / 100}
+              thickness={thickness / 1000}
               shelfCount={shelfCount}
               selectedModel={selectedModel}
               texturePath={selectedTexture || "wood.jpg"}

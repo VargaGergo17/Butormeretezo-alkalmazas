@@ -24,15 +24,19 @@ function WeightCalculate(width, height, depth, thickness, selectedTexture) {
       density = 550; 
       break;
     default:
-      throw new Error("Invalid material selected"); // Handle invalid texture
+      throw new Error("Invalid material selected"); 
   }
 
-  const Sides = 2 * ((depth - thickness) * height * thickness);
-  const TopBottom = 2 * ((width - thickness * 2) * (depth - thickness) * thickness);
-  const Back = height * width * thickness;
+  
+  const t_cm = thickness / 10;
 
-  const volume = (Sides + TopBottom + Back) / 1000000; // m^3
-  const weight = volume * density; // kg
+  const Sides = 2 * ((depth - t_cm) * height * t_cm);
+  const TopBottom = 2 * ((width - t_cm * 2) * (depth - t_cm) * t_cm);
+  const Back = height * width * t_cm;
+
+  
+  const volume = (Sides + TopBottom + Back) / 1000000; 
+  const weight = volume * density; 
   return weight;
 }
 
